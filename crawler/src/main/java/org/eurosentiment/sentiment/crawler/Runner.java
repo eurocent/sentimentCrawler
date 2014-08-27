@@ -16,6 +16,24 @@
  */
 package org.eurosentiment.sentiment.crawler;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.net.URISyntaxException;
+
+import org.apache.any23.Any23;
+import org.apache.any23.extractor.ExtractionException;
+import org.apache.any23.http.HTTPClient;
+import org.apache.any23.source.DocumentSource;
+import org.apache.any23.source.HTTPDocumentSource;
+import org.apache.any23.writer.JSONWriter;
+import org.apache.any23.writer.NQuadsWriter;
+import org.apache.any23.writer.NTriplesWriter;
+import org.apache.any23.writer.RDFXMLWriter;
+import org.apache.any23.writer.TriXWriter;
+import org.apache.any23.writer.TripleHandler;
+import org.apache.any23.writer.TripleHandlerException;
+import org.apache.any23.writer.TurtleWriter;
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.GnuParser;
 import org.apache.commons.cli.HelpFormatter;
@@ -23,6 +41,7 @@ import org.apache.commons.cli.Option;
 import org.apache.commons.cli.OptionBuilder;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
+import org.apache.commons.io.FileUtils;
 
 /**
  * <p>
@@ -41,11 +60,11 @@ import org.apache.commons.cli.ParseException;
  *
  */
 public class Runner {
-  
+
   private static String uri;
-  
+
   private static String outputDir;
-  
+
   private static String outputFormat;
 
   /**
@@ -62,30 +81,24 @@ public class Runner {
    * 
    * @param args
    */
+  @SuppressWarnings("static-access")
   public static void main(String[] args) {
     Options options = new Options();
-    Option help = new Option( "help", "print this message" );
-    @SuppressWarnings("static-access")
-    Option urlArg = OptionBuilder.withArgName( "url" )
-    .hasArg()
-    .withDescription( "run sentiment extraction on this URL" )
-    .create( "url" );
-    @SuppressWarnings("static-access")
-    Option outputDirArg = OptionBuilder.withArgName( "output_dir" )
-    .hasArg()
-    .withDescription( "output directory for extracted s, p, o sentiments" )
-    .create( "outputDir" );
-    @SuppressWarnings("static-access")
-    Option outputFormatArg = OptionBuilder.withArgName( "output_serialization" )
-    .hasArg()
-    .withDescription( "output serialization for extracted s, p, o sentiments "
-        + "(one of 'turtle', 'ntriples', 'rdfxml', 'nquads', 'trix' or 'json')" )
-        .create( "outputFormat" );
+    options.addOption(new Option( "help", "print this message" ));
+    options.addOption(OptionBuilder.withArgName( "url" )
+        .hasArg()
+        .withDescription( "run sentiment extraction on this URL" )
+        .create( "url" ));
+    options.addOption(OptionBuilder.withArgName( "output_dir" )
+        .hasArg()
+        .withDescription( "output directory for extracted s, p, o sentiments" )
+        .create( "outputDir" ));
+    options.addOption(OptionBuilder.withArgName( "output_serialization" )
+        .hasArg()
+        .withDescription( "output serialization for extracted s, p, o sentiments "
+            + "(one of 'turtle', 'ntriples', 'rdfxml', 'nquads', 'trix' or 'json')" )
+            .create( "outputFormat" ));
 
-    options.addOption(help);
-    options.addOption(urlArg);
-    options.addOption(outputDirArg);
-    options.addOption(outputFormatArg);
     GnuParser parser = new GnuParser();
     CommandLine cmdLine = null;
 
@@ -99,6 +112,7 @@ public class Runner {
     if( cmdLine.hasOption( "help" ) ) {
       HelpFormatter formatter = new HelpFormatter();
       formatter.printHelp( Runner.class.getSimpleName(), options );
+      System.exit(0);
     }
     if (cmdLine.hasOption("url")) {
       setUri(cmdLine.getOptionValue( "url" ));
@@ -108,6 +122,72 @@ public class Runner {
     }
     if (cmdLine.hasOption("outputFormat")) {
       setOutputFormat(cmdLine.getOptionValue("outputFormat"));
+    }
+
+    try {
+      run(uri, outputDir, outputFormat);
+    } catch (IOException e) {
+      e.printStackTrace();
+    } catch (URISyntaxException e) {
+      e.printStackTrace();
+    } catch (ExtractionException e) {
+      e.printStackTrace();
+    }
+  }
+
+  private static void run(String uri, String outputDir, String outputFormat) throws IOException, URISyntaxException, ExtractionException {
+    Any23 runner = new Any23();
+    runner.setHTTPUserAgent("Eurosentiment Crawler");
+    HTTPClient httpClient = runner.getHTTPClient();
+    DocumentSource source = new HTTPDocumentSource(
+        httpClient,
+        uri
+        );
+    ByteArrayOutputStream out = new ByteArrayOutputStream();
+    TripleHandler handler = null;
+    if (outputFormat != null) {
+      switch (outputFormat) {
+      case "turtle":
+        handler = new TurtleWriter(out);
+        break;
+      case "ntriples":
+        handler = new NTriplesWriter(out);
+        break;
+      case "rdfxml":
+        handler = new RDFXMLWriter(out);
+        break;
+      case "nquads":
+        handler = new NQuadsWriter(out);
+        break;
+      case "trix":
+        handler = new TriXWriter(out);
+        break;
+      case "json":
+        handler = new JSONWriter(out);
+        break;
+      default:
+        System.out.println("No output writer found for type: " + outputFormat);
+        System.out.println("Defaulting to Turtle output serialization");
+        handler = new TurtleWriter(out);
+        break;
+      }
+      System.out.println("Selected " + handler.getClass().getSimpleName() + " as output writer.");
+    }
+    try {
+      runner.extract(source, handler);
+    } finally {
+      try {
+        handler.close();
+      } catch (TripleHandlerException e) {
+        e.printStackTrace();
+      }
+    }
+    if (outputDir != null) {
+      FileUtils.writeStringToFile(new File(outputDir + "/sentiment.txt"), out.toString("UTF-8"));
+      System.out.println("Successfully wrote file to: " + outputDir + "/sentiment.txt");
+    } else {
+      FileUtils.writeStringToFile(new File("sentiment.txt"), out.toString("UTF-8"));
+      System.out.println("Successfully wrote file to sentiment.txt");
     }
   }
 
@@ -124,7 +204,7 @@ public class Runner {
   public static void setUri(String uri) {
     Runner.uri = uri;
   }
-  
+
   /**
    * @return the output directory for the extracted sentiment
    */
@@ -138,7 +218,7 @@ public class Runner {
   public static void setOutputDir(String outputDir) {
     Runner.outputDir = outputDir;
   }
-  
+
   /**
    * @return the output format for which we wish sentiment
    * to be serialized.
