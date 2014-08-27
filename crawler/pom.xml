@@ -24,6 +24,8 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<javac.src.version>1.7</javac.src.version>
+		<javac.target.version>1.7</javac.target.version>
 	</properties>
 
 	<developers>
@@ -68,6 +70,20 @@
 		<testSourceDirectory>${basedir}/src/test/java</testSourceDirectory>
 		<pluginManagement>
 			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>3.1</version>
+					<inherited>true</inherited>
+					<configuration>
+						<source>${javac.src.version}</source>
+						<target>${javac.target.version}</target>
+						<showDeprecation>true</showDeprecation>
+						<showWarnings>true</showWarnings>
+						<!-- executable>{JAVA_HOME_1_7}/bin/javac</executable -->
+						<fork>true</fork>
+					</configuration>
+				</plugin>
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-clean-plugin</artifactId>
@@ -119,9 +135,63 @@
 						</lifecycleMappingMetadata>
 					</configuration>
 				</plugin>
+				<plugin>
+					<!-- Build an executable JAR -->
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-jar-plugin</artifactId>
+					<version>2.5</version>
+					<configuration>
+						<archive>
+							<manifest>
+								<addClasspath>true</addClasspath>
+								<classpathPrefix>${basedir}/lib</classpathPrefix>
+								<mainClass>org.eurosentiment.sentiment.crawler.Runner</mainClass>
+							</manifest>
+						</archive>
+					</configuration>
+				</plugin>
 			</plugins>
 		</pluginManagement>
 		<plugins>
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>2.4.1</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<descriptorRefs>
+						<descriptorRef>jar-with-dependencies</descriptorRef>
+					</descriptorRefs>
+					<archive>
+						<manifest>
+							<addClasspath>true</addClasspath>
+							<classpathPrefix>${basedir}/lib</classpathPrefix>
+							<mainClass>org.eurosentiment.sentiment.crawler.Runner</mainClass>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
+			<plugin>
+				<!-- Build an executable JAR -->
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>2.5</version>
+				<configuration>
+					<archive>
+						<manifest>
+							<addClasspath>true</addClasspath>
+							<classpathPrefix>${basedir}/lib</classpathPrefix>
+							<mainClass>org.eurosentiment.sentiment.crawler.Runner</mainClass>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-dependency-plugin</artifactId>
@@ -129,13 +199,16 @@
 				<inherited>true</inherited>
 				<executions>
 					<execution>
-						<id>copy</id>
+						<id>copy-dependencies</id>
 						<phase>package</phase>
 						<goals>
 							<goal>copy-dependencies</goal>
 						</goals>
 						<configuration>
 							<outputDirectory>lib</outputDirectory>
+							<overWriteReleases>false</overWriteReleases>
+							<overWriteSnapshots>false</overWriteSnapshots>
+							<overWriteIfNewer>true</overWriteIfNewer>
 						</configuration>
 					</execution>
 				</executions>

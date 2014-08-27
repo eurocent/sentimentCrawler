@@ -83,6 +83,7 @@ public class Runner {
    */
   @SuppressWarnings("static-access")
   public static void main(String[] args) {
+
     Options options = new Options();
     options.addOption(new Option( "help", "print this message" ));
     options.addOption(OptionBuilder.withArgName( "url" )
@@ -98,6 +99,12 @@ public class Runner {
         .withDescription( "output serialization for extracted s, p, o sentiments "
             + "(one of 'turtle', 'ntriples', 'rdfxml', 'nquads', 'trix' or 'json')" )
             .create( "outputFormat" ));
+    
+    HelpFormatter formatter = new HelpFormatter();
+    if (args == null) {
+      formatter.printHelp( Runner.class.getSimpleName(), options );
+      System.exit(0);
+    }
 
     GnuParser parser = new GnuParser();
     CommandLine cmdLine = null;
@@ -109,8 +116,8 @@ public class Runner {
       System.err.println( "Parsing failed.  Reason: " + exp.getMessage() );
     }
 
-    if( cmdLine.hasOption( "help" ) ) {
-      HelpFormatter formatter = new HelpFormatter();
+    if( cmdLine.hasOption( "help" )) {
+      
       formatter.printHelp( Runner.class.getSimpleName(), options );
       System.exit(0);
     }
