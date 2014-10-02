@@ -40,17 +40,18 @@ language resource pool for fostering sentiment analysis. Sentiment Crawler acts 
 
 <h3>
 <a name="what-isit" class="anchor" href="#what-isit"><span class="octicon octicon-link"></span></a>SO... What is sentimentCrawler???</h3>
-<p>sentimentCrawler is an http crawler which builds subject, predicate, object triple representations to automatically create corpora that can be used for sentiment analysis. This is done in a semi automatic fashion by leveraging vocuabularies aimed at achieving the <a href="http://www.w3.org/2013/data/">Web of Data</a> such as <a href="http://schema.org/">schema.org</a> markup.</p>
-<p>Examples of what kind of vocubularies we refer to here include:
+<p>sentimentCrawler is an HTTP crawler which builds subject, predicate, object triple representations to automatically create corpora that can be used for sentiment analysis. This is done in a semi automatic fashion by leveraging vocuabularies aimed at achieving the <a href="http://www.w3.org/2013/data/">Web of Data</a> such as <a href="http://schema.org/">schema.org</a> markup.</p>
+<p>Examples of what kind of vocubularies and the topic areas sentimentCrawler utilises include:
 <ol>
 <li><a href="http://schema.org/Event">Events</a>: An event happening at a certain time and location, such as a concert, lecture, or festival. Ticketing information may be added via the 'offers' property. Repeated events may be structured as separate Event objects.</li>
 <li><a href="http://schema.org/Organization">Organization</a>: An organization such as a school, NGO, corporation, club, etc.</li>
 <li><a href="http://schema.org/Restaurant">Restaurant</a>: Your favourite (or worst) place to eat.</li>
 <li><a href="http://schema.org/Product">Product</a>: Any offered product or service. For example: a pair of shoes; a concert ticket; the rental of a car; a haircut; or an episode of a TV show streamed online.</li>
 <li><a href="http://schema.org/Review">Review</a>: A review of an item - for example, of a restaurant, movie, electrical equipment, holiday or store.</li>
+<li>... and many many more</li>
 </ol>
 
-<p>The workflow for using sentimentCrawler is as follows:
+<p><b>The workflow for using sentimentCrawler is as follows</b>:
 <ol>
 <li>Fetch a web corpus by configuring the crawler (described below) - make sure you point it to a website with web markup such as reviews!</li> 
 <li>Automatically get subject, predicate, object (<a href="http://www.w3.org/RDF/">RDF</a> triples) relationships from implicit content and structure thanks to the standard (implicit) markup that should be in the pages.</li>
@@ -61,7 +62,7 @@ language resource pool for fostering sentiment analysis. Sentiment Crawler acts 
 <h3>
 <a name="features" class="anchor" href="#features"><span class="octicon octicon-link"></span></a>Current Features</h3>
 <p>
-The tool is extremely lightweight but there are some nice features
+<b>The tool is extremely lightweight but there are some nice features</b>:
 <ol>
 <li>The output path for generated triples is configurable so that output can be stored anywhere locally on file system</li>
 <li>The output format is configurable and can be one of <a href="http://www.w3.org/TR/turtle/"><b>turtle</b></a>, <a href="http://www.w3.org/TR/n-triples/"><b>ntriples</b></a>, <a href="http://www.w3.org/TR/rdf-syntax-grammar/"><b>rdfxml</b></a>, <a href="http://www.w3.org/TR/n-quads/"><b>nquads</b></a>, <a href="http://www.w3.org/2004/03/trix/"><b>trix</b></a> or <a href="http://json.org/"><b>json</b></a></li>
