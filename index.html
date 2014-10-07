@@ -14,6 +14,16 @@
     <![endif]-->
 
     <title>Sentimentcrawler by eurocent</title>
+    <!-- For collapsable HTML lists -->
+    <style type="text/css">
+      .row { vertical-align: top; height:auto !important; }
+      .list {display:none; }
+      .show {display: none; }
+      .hide:target + .show {display: inline; }
+      .hide:target {display: none; }
+      .hide:target ~ .list {display:inline; }
+      @media print { .hide, .show { display: none; } }
+    </style>
   </head>
 
   <body>
@@ -77,18 +87,1168 @@ top level project at <a href="http://apache.org">The Apache Software Foundation<
 </ol>
 
 <h3>
-<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>How can I use sentimentCrawler?</h3>
+<a name="usage" class="anchor" href="#install"><span class="octicon octicon-link"></span></a>How can I install and use sentimentCrawler?</h3>
 <p>
 Pretty easily... we did say it was lightweight after all didn't we!:</p>
 
 <pre><code>$ git clone https://github.com/eurocent/sentimentCrawler.git
-$ cd crawler
+$ cd sentimentCrawler/crawler
 $ mvn install
-$ cd target
-$ java -jar sentiment-crawler-0.0.1-SNAPSHOT-jar-with-dependencies.jar -url http://reviews.bestbuy.com/3545a/6141277/zagg-invisibleshield-for-samsung-galaxy-gear-2-neo-fit-watch-reviews/reviews.htm -outputDir /usr/local/sentimentCrawler/crawler/target -outputFormat turtle
+$ mkdir output
+$ java -jar ./target/sentiment-crawler-0.0.1-SNAPSHOT-jar-with-dependencies.jar -url ${insert_your_url_here} -outputDir 
+/usr/local/sentimentCrawler/output -outputFormat json
 </code></pre>
 
-<p>In the example above, the output will be written to a the file located at <b>/usr/local/sentimentCrawler/crawler/target/sentiment.txt</b></p>
+<p>In the example above, the output will be written to a the file located at <b>/usr/local/sentimentCrawler/output/sentiment.txt</b></p>
+
+<h3>
+<a name="usage" class="anchor" href="#examples"><span class="octicon octicon-link"></span></a>Examples</h3>
+<p>The following examples display output triples representing sentiment from various website domains. 
+Their purpose is to display the nature and content of output one would typically get from running sentimentCrawler 
+on a webpage containing relevant markup. Please <b>Expand</b> the code snippets to see examples of generated output 
+from each example domain. The ouput has been serialized as JSON for enhanced readability.</p>
+
+<h4>
+<a name="festival" class="anchor" href="#festival"><span class="octicon octicon-link"></span></a>Festival Review</h4>
+<p>The following displays some sentiment in the form of reviews from the recent 
+<a href="http://www.berlinfestival.de/en/live.html">Berlin Music Festival 2014</a></p>
+<p>As you can see here, there are useful reviews, from a number of individuals. Reviews include the name of the Reviewer,
+the name of the reviewed item, a rating score (in this case out of 5) and finally some other extracted data which represents
+latent structure embedded within the page review.</p>
+ <div class="row">
+   <a href="#hide1" class="hide" id="hide1">Expand</a>
+   <a href="#show1" class="show" id="show1">Collapse</a>
+   <div class="list">
+   <ul><pre><code>
+{
+  "quads": [
+    [
+      {
+        "type": "uri",
+        "value": "http:\/\/www.residentadvisor.net\/review-view.aspx?id=15633"
+      },
+      "http:\/\/purl.org\/dc\/terms\/title",
+      {
+        "type": "literal",
+        "value": "RA Reviews: Berlin Festival 2014 at Arena Berlin (Event)",
+        "lang": null,
+        "datatype": null
+      },
+      null
+    ],
+    [
+      {
+        "type": "bnode",
+        "value": "node248683dbf93648884dcfa64d1a9384be"
+      },
+      "http:\/\/www.w3.org\/1999\/02\/22-rdf-syntax-ns#type",
+      {
+        "type": "uri",
+        "value": "http:\/\/data-vocabulary.org\/Review"
+      },
+      null
+    ],
+    [
+      {
+        "type": "bnode",
+        "value": "node248683dbf93648884dcfa64d1a9384be"
+      },
+      "http:\/\/data-vocabulary.org\/Review\/dtreviewed",
+      {
+        "type": "literal",
+        "value": "Wed \/ 24 Sep  2014",
+        "lang": "en,ja,es",
+        "datatype": null
+      },
+      null
+    ],
+    [
+      {
+        "type": "bnode",
+        "value": "node248683dbf93648884dcfa64d1a9384be"
+      },
+      "http:\/\/data-vocabulary.org\/Review\/description",
+      {
+        "type": "literal",
+        "value": "One or two eyebrows were raised when, with only a month's warning, the team behind Berlin Festival announced their annual big-name showcase at Flughafen Templehof would be moving locations, after five years of calling the beloved airfield their home. But according to organisers, this relocation to Kreuzberg's Arena Park was always part of the plan. With arenaclub (at the centre of the park) being used in years past as a satellite venue for the much larger site at Templehof, and with no official reason given for the lateness of the displacement, an assumption would be that the event was downsizing. Comprising tourist hotspots Club der Visionaere, Arena Hall, White Trash, Ipse and Badeschiff, as well as several smaller stages and the returning Art Village, organisers perhaps felt Arena Park was ready made for their event. These pre-built stages provided by some of Berlin's most established venues, coupled with the city-centre location encompassing riverside views, beaches, a swimming pool, multiple bars, restaurants and parks, would no doubt save the festival from the logistical costs of constructing an entire site elsewhere. Friday's main-stage programme wasted no time in getting down to business: DARKSIDE, Todd Terje, DJ Koze and Ellen Allien lined up to open Berlin Festival's new era with a bang. Unfortunately there was an annoying echo effect for many people in the 6000 m2 Arena Hall. Much of the softer components of Nicolas Jaar and Dave Harrington's performance were lost in the cavernous surroundings, yet it served to underline their technical abilities when Harrington's wonderful looping guitar work and Jaar's crunching electronica still climaxed together regularly, filling the space with a warmth we have come to expect from the duo. After a quick intermission between set times (featuring an affectionate singalong to Toto's 'Africa'), Todd Terje's epic piano stabs had people rushing back from bar and toilet breaks, pushing to the front of the stage to get nearer that Norwegian smile. Still, the hall never quite got going, with 'Inspector Norse' and 'Strandbar' failing to send everyone as wild as expected. A higher energy was pumping through the Glashaus next door, as LuckyMe's Jacques Greene slayed a more adequately sized and appreciative room, delivering acid, breaks and garage. Label affiliate Hudson Mohawke then got the younger generations attempting various twerking manoeuvres with tracks from his forthcoming Warp release Chimes and plenty of his heavy-hitting back catalogue. A sunny Saturday afternoon at Badeschiff allowed Max Graef to coax a sparse crowd from their slumber. Graef swung enjoyably through house, jazz and engaging instrumentals, before all of a sudden people seemed to appear out of the sand for Magda's arrival in the booth. As the beach area filled up it served as an early warning sign that perhaps the space was not fit for purpose. Henrik Schwarz and Nina Kraviz played to near bursting crowds later that day, and the queues into the area would become a sore spot for many people over the weekend. The shenanigans outside meant a low turnout at the main stage for Yello's former frontman and millionaire Swiss performer Dieter Meier, before Bombay Bicycle Club took over to perform tracks from their UK number one album Home By Now. Despite the occasional main-stage singalong and a mild revelry outside on the beach, as we passed the festival's midway point it was still proving difficult to gauge who the majority of people had turned out to watch. Only Rustie elicited any notable intensity that night, putting aside mixed responses to his Green Language LP by slamming us back and forth in the Glashaus. Elsewhere around the site an air of idleness was developing as a disconnection between artists and audiences prevailed. A sold out Sunday should have heightened the atmosphere, but instead it seemed to create agitation toward the festival's layout. Heavy rain had crowds rushing indoors for Warpaint and drowned out much of Andre Galluzi's time at Badeschiff, though traffic into the beach area again begun to clog as we approached Sven V\u00e4th's scheduled start. When the sunshine reappeared there wasn't a square inch of space available, and as Sven took to the decks 20 minutes late, plenty of displeased people were still queuing to get onto the beach. Back inside, Woodkid seemed (surprisingly) to have been what the main hall was waiting all weekend for, with one of the weekend's biggest receptions. Berlin Festival seemed to have skipped any serious creativity with their venue selection, decoration or, indeed, programming. Unfortunately some of their key decisions contributed to a tepid atmosphere and some half-hearted audience responses throughout the weekend. Photo credits: Stephan Flad (Deckchair, DARKSIDE, Sven V\u00e4th), Robert Winter (Berlin)  ",
+        "lang": "en,ja,es",
+        "datatype": null
+      },
+      null
+    ],
+    [
+      {
+        "type": "bnode",
+        "value": "node248683dbf93648884dcfa64d1a9384be"
+      },
+      "http:\/\/data-vocabulary.org\/Review\/itemreviewed",
+      {
+        "type": "literal",
+        "value": "Berlin Festival 2014",
+        "lang": "en,ja,es",
+        "datatype": null
+      },
+      null
+    ],
+    [
+      {
+        "type": "bnode",
+        "value": "node248683dbf93648884dcfa64d1a9384be"
+      },
+      "http:\/\/data-vocabulary.org\/Review\/reviewer",
+      {
+        "type": "literal",
+        "value": "George Russell",
+        "lang": "en,ja,es",
+        "datatype": null
+      },
+      null
+    ],
+    [
+      {
+        "type": "bnode",
+        "value": "node248683dbf93648884dcfa64d1a9384be"
+      },
+      "http:\/\/data-vocabulary.org\/Review\/rating",
+      {
+        "type": "literal",
+        "value": "2.5\/5",
+        "lang": "en,ja,es",
+        "datatype": null
+      },
+      null
+    ],
+    ...
+  ]
+}
+   </code></pre>
+     </ul>
+ </div>
+ 
+<h4>
+<a name="product" class="anchor" href="#product"><span class="octicon octicon-link"></span></a>Product Review</h4>
+<p>The following displays a recent review of the <a href="http://www.engadget.com/2014/10/03/moto-g-review-2014/">Motorola G smartphone</a>.</p>
+<p>As you can see here, we obtain the title of the review, review author name, product corporation name, model name,
+worst review score this this model, best review score for this model, particular review score, the review text itself, 
+the blogger (reviewer) name, a link to the bloggers picture, the bloggers twitter account (which can be used to augment
+sentiment if we wished), keywords used by the blogger, etc. In this case we get a number of metadata which can be used 
+directly within sentiment analysis tasks.
+</p>
+ <div class="row">
+   <a href="#hide2" class="hide" id="hide2">Expand</a>
+   <a href="#show2" class="show" id="show2">Collapse</a>
+   <div class="list">
+   <ul><pre><code>
+{
+  "quads": [
+    [
+      {
+        "type": "uri",
+        "value": "http:\/\/www.engadget.com\/2014\/10\/03\/moto-g-review-2014\/"
+      },
+      "http:\/\/purl.org\/dc\/terms\/title",
+      {
+        "type": "literal",
+        "value": "Moto G review (2014): still the best budget smartphone",
+        "lang": null,
+        "datatype": null
+      },
+      null
+    ],
+    [
+      {
+        "type": "bnode",
+        "value": "nodeddf973ed36753bf8d3beb1a21e8e254a"
+      },
+      "http:\/\/www.w3.org\/1999\/02\/22-rdf-syntax-ns#type",
+      {
+        "type": "uri",
+        "value": "http:\/\/schema.org\/BlogPosting"
+      },
+      null
+    ],
+    [
+      {
+        "type": "bnode",
+        "value": "nodeddf973ed36753bf8d3beb1a21e8e254a"
+      },
+      "http:\/\/schema.org\/BlogPosting\/headline",
+      {
+        "type": "literal",
+        "value": "Moto G review (2014): still the best budget smartphone",
+        "lang": null,
+        "datatype": null
+      },
+      null
+    ],
+    [
+      {
+        "type": "bnode",
+        "value": "nodeddf973ed36753bf8d3beb1a21e8e254a"
+      },
+      "http:\/\/schema.org\/BlogPosting\/author",
+      {
+        "type": "literal",
+        "value": "Chris Velazco",
+        "lang": null,
+        "datatype": null
+      },
+      null
+    ],
+    [
+      {
+        "type": "bnode",
+        "value": "nodeddf973ed36753bf8d3beb1a21e8e254a"
+      },
+      "http:\/\/schema.org\/BlogPosting\/interactionCount",
+      {
+        "type": "literal",
+        "value": "0",
+        "lang": null,
+        "datatype": null
+      },
+      null
+    ],
+    [
+      {
+        "type": "uri",
+        "value": "http:\/\/www.engadget.com\/2014\/10\/03\/moto-g-review-2014\/"
+      },
+      "http:\/\/www.w3.org\/1999\/xhtml\/microdata#item",
+      {
+        "type": "bnode",
+        "value": "nodeddf973ed36753bf8d3beb1a21e8e254a"
+      },
+      null
+    ],
+    [
+      {
+        "type": "bnode",
+        "value": "node6cb2cf7e9125c533aac967f5342156"
+      },
+      "http:\/\/www.w3.org\/1999\/02\/22-rdf-syntax-ns#type",
+      {
+        "type": "uri",
+        "value": "http:\/\/schema.org\/Product"
+      },
+      null
+    ],
+    [
+      {
+        "type": "bnode",
+        "value": "node6cb2cf7e9125c533aac967f5342156"
+      },
+      "http:\/\/schema.org\/Product\/model",
+      {
+        "type": "literal",
+        "value": "Moto G 2nd-gen",
+        "lang": null,
+        "datatype": null
+      },
+      null
+    ],
+    [
+      {
+        "type": "bnode",
+        "value": "node6cb2cf7e9125c533aac967f5342156"
+      },
+      "http:\/\/schema.org\/Product\/name",
+      {
+        "type": "literal",
+        "value": "Motorola Moto G 2nd-gen",
+        "lang": null,
+        "datatype": null
+      },
+      null
+    ],
+    [
+      {
+        "type": "bnode",
+        "value": "node6cb2cf7e9125c533aac967f5342156"
+      },
+      "http:\/\/schema.org\/Product\/brand",
+      {
+        "type": "uri",
+        "value": "http:\/\/www.engadget.com\/products\/motorola\/"
+      },
+      null
+    ],
+    [
+      {
+        "type": "bnode",
+        "value": "node8752dd06eab1c1c98fac3f939846fd"
+      },
+      "http:\/\/www.w3.org\/1999\/02\/22-rdf-syntax-ns#type",
+      {
+        "type": "uri",
+        "value": "http:\/\/schema.org\/Corporation"
+      },
+      null
+    ],
+    [
+      {
+        "type": "bnode",
+        "value": "node8752dd06eab1c1c98fac3f939846fd"
+      },
+      "http:\/\/schema.org\/Corporation\/name",
+      {
+        "type": "literal",
+        "value": "Motorola",
+        "lang": null,
+        "datatype": null
+      },
+      null
+    ],
+    [
+      {
+        "type": "bnode",
+        "value": "node8752dd06eab1c1c98fac3f939846fd"
+      },
+      "http:\/\/schema.org\/Corporation\/url",
+      {
+        "type": "literal",
+        "value": "http:\/\/www.engadget.com\/products\/motorola\/",
+        "lang": null,
+        "datatype": null
+      },
+      null
+    ],
+    [
+      {
+        "type": "bnode",
+        "value": "node6cb2cf7e9125c533aac967f5342156"
+      },
+      "http:\/\/schema.org\/Product\/brand",
+      {
+        "type": "bnode",
+        "value": "node8752dd06eab1c1c98fac3f939846fd"
+      },
+      null
+    ],
+    [
+      {
+        "type": "bnode",
+        "value": "node6cb2cf7e9125c533aac967f5342156"
+      },
+      "http:\/\/schema.org\/Product\/image",
+      {
+        "type": "uri",
+        "value": "http:\/\/media.engadget.com\/img\/products\/519\/b4u5\/b4u5-100.jpg"
+      },
+      null
+    ],
+    [
+      {
+        "type": "bnode",
+        "value": "node3b58ddea935c16f5a2242733ec7744b"
+      },
+      "http:\/\/www.w3.org\/1999\/02\/22-rdf-syntax-ns#type",
+      {
+        "type": "uri",
+        "value": "http:\/\/schema.org\/AggregateRating"
+      },
+      null
+    ],
+    [
+      {
+        "type": "bnode",
+        "value": "node3b58ddea935c16f5a2242733ec7744b"
+      },
+      "http:\/\/schema.org\/AggregateRating\/bestRating",
+      {
+        "type": "literal",
+        "value": "10",
+        "lang": null,
+        "datatype": null
+      },
+      null
+    ],
+    [
+      {
+        "type": "bnode",
+        "value": "node3b58ddea935c16f5a2242733ec7744b"
+      },
+      "http:\/\/schema.org\/AggregateRating\/ratingValue",
+      {
+        "type": "literal",
+        "value": "9",
+        "lang": null,
+        "datatype": null
+      },
+      null
+    ],
+    [
+      {
+        "type": "bnode",
+        "value": "node3b58ddea935c16f5a2242733ec7744b"
+      },
+      "http:\/\/schema.org\/AggregateRating\/ratingCount",
+      {
+        "type": "literal",
+        "value": "2",
+        "lang": null,
+        "datatype": null
+      },
+      null
+    ],
+    [
+      {
+        "type": "bnode",
+        "value": "node3b58ddea935c16f5a2242733ec7744b"
+      },
+      "http:\/\/schema.org\/AggregateRating\/name",
+      {
+        "type": "literal",
+        "value": "average user rating",
+        "lang": null,
+        "datatype": null
+      },
+      null
+    ],
+    [
+      {
+        "type": "bnode",
+        "value": "node3b58ddea935c16f5a2242733ec7744b"
+      },
+      "http:\/\/schema.org\/AggregateRating\/worstRating",
+      {
+        "type": "literal",
+        "value": "1",
+        "lang": null,
+        "datatype": null
+      },
+      null
+    ],
+    [
+      {
+        "type": "bnode",
+        "value": "node6cb2cf7e9125c533aac967f5342156"
+      },
+      "http:\/\/schema.org\/Product\/aggregateRating",
+      {
+        "type": "bnode",
+        "value": "node3b58ddea935c16f5a2242733ec7744b"
+      },
+      null
+    ],
+    [
+      {
+        "type": "bnode",
+        "value": "node6cb2cf7e9125c533aac967f5342156"
+      },
+      "http:\/\/schema.org\/Product\/url",
+      {
+        "type": "uri",
+        "value": "http:\/\/www.engadget.com\/products\/motorola\/moto\/g\/2nd-gen\/"
+      },
+      null
+    ],
+    [
+      {
+        "type": "uri",
+        "value": "http:\/\/www.engadget.com\/2014\/10\/03\/moto-g-review-2014\/"
+      },
+      "http:\/\/www.w3.org\/1999\/xhtml\/microdata#item",
+      {
+        "type": "bnode",
+        "value": "node6cb2cf7e9125c533aac967f5342156"
+      },
+      null
+    ],
+    [
+      {
+        "type": "uri",
+        "value": "http:\/\/www.engadget.com\/2014\/10\/03\/moto-g-review-2014\/"
+      },
+      "http:\/\/purl.org\/dc\/terms\/title",
+      {
+        "type": "literal",
+        "value": "Moto G review (2014): still the best budget smartphone",
+        "lang": null,
+        "datatype": null
+      },
+      null
+    ],
+    [
+      {
+        "type": "uri",
+        "value": "http:\/\/www.engadget.com\/2014\/10\/03\/moto-g-review-2014\/"
+      },
+      "http:\/\/www.w3.org\/1999\/xhtml\/vocab#description",
+      {
+        "type": "literal",
+        "value": "Last year's Moto G took us all by surprise. Sure, we knew Motorola wanted to reinvent the cheap smartphone experience, but the very first device in the",
+        "lang": null,
+        "datatype": null
+      },
+      null
+    ],
+    [
+      {
+        "type": "uri",
+        "value": "http:\/\/www.engadget.com\/2014\/10\/03\/moto-g-review-2014\/"
+      },
+      "http:\/\/www.w3.org\/1999\/xhtml\/vocab#body",
+      {
+        "type": "literal",
+        "value": " Last year's Moto G took us all by surprise. Sure, we knew Motorola wanted to reinvent the cheap smartphone experience, but the very first device in the",
+        "lang": null,
+        "datatype": null
+      },
+      null
+    ],
+    [
+      {
+        "type": "uri",
+        "value": "http:\/\/www.engadget.com\/2014\/10\/03\/moto-g-review-2014\/"
+      },
+      "http:\/\/www.w3.org\/1999\/xhtml\/vocab#published_at",
+      {
+        "type": "literal",
+        "value": "2014\/10\/03",
+        "lang": null,
+        "datatype": null
+      },
+      null
+    ],
+    [
+      {
+        "type": "uri",
+        "value": "http:\/\/www.engadget.com\/2014\/10\/03\/moto-g-review-2014\/"
+      },
+      "http:\/\/www.w3.org\/1999\/xhtml\/vocab#tags",
+      {
+        "type": "literal",
+        "value": "@aoloriginal,@cellphones,@features,@fullbleed,@livefyre,@mobile,@mobilepostcross,@pick,@swipe-review,@top5classic,@top5daily,@top5mobile,@weekends,mobilepostcross,moto g,moto g 2014,motog,motog2014,motorola,review,uk-reviews",
+        "lang": null,
+        "datatype": null
+      },
+      null
+    ],
+    [
+      {
+        "type": "uri",
+        "value": "http:\/\/www.engadget.com\/2014\/10\/03\/moto-g-review-2014\/"
+      },
+      "http:\/\/www.w3.org\/1999\/xhtml\/vocab#type",
+      {
+        "type": "literal",
+        "value": "article",
+        "lang": null,
+        "datatype": null
+      },
+      null
+    ],
+    [
+      {
+        "type": "uri",
+        "value": "http:\/\/www.engadget.com\/2014\/10\/03\/moto-g-review-2014\/"
+      },
+      "http:\/\/www.w3.org\/1999\/xhtml\/vocab#short_url",
+      {
+        "type": "literal",
+        "value": "http:\/\/engt.co\/1nTow56",
+        "lang": null,
+        "datatype": null
+      },
+      null
+    ],
+    [
+      {
+        "type": "uri",
+        "value": "http:\/\/www.engadget.com\/2014\/10\/03\/moto-g-review-2014\/"
+      },
+      "http:\/\/www.w3.org\/1999\/xhtml\/vocab#image",
+      {
+        "type": "literal",
+        "value": "http:\/\/o.aolcdn.com\/hss\/storage\/midas\/6b027ae56a78c7fc3b635804928f8db0\/200852700\/g-fullbleed.jpg",
+        "lang": null,
+        "datatype": null
+      },
+      null
+    ],
+    [
+      {
+        "type": "uri",
+        "value": "http:\/\/www.engadget.com\/2014\/10\/03\/moto-g-review-2014\/"
+      },
+      "http:\/\/www.w3.org\/1999\/xhtml\/vocab#post_id",
+      {
+        "type": "literal",
+        "value": "20970200",
+        "lang": null,
+        "datatype": null
+      },
+      null
+    ],
+    [
+      {
+        "type": "uri",
+        "value": "http:\/\/www.engadget.com\/2014\/10\/03\/moto-g-review-2014\/"
+      },
+      "http:\/\/www.w3.org\/1999\/xhtml\/vocab#blogger_name",
+      {
+        "type": "literal",
+        "value": "Chris Velazco",
+        "lang": null,
+        "datatype": null
+      },
+      null
+    ],
+    [
+      {
+        "type": "uri",
+        "value": "http:\/\/www.engadget.com\/2014\/10\/03\/moto-g-review-2014\/"
+      },
+      "http:\/\/www.w3.org\/1999\/xhtml\/vocab#blogger_image",
+      {
+        "type": "literal",
+        "value": "http:\/\/www.blogcdn.com\/www.engadget.com\/media\/2014\/10\/bunnyface.jpg",
+        "lang": null,
+        "datatype": null
+      },
+      null
+    ],
+    [
+      {
+        "type": "uri",
+        "value": "http:\/\/www.engadget.com\/2014\/10\/03\/moto-g-review-2014\/"
+      },
+      "http:\/\/www.w3.org\/1999\/xhtml\/vocab#blogger_slug",
+      {
+        "type": "literal",
+        "value": "chris-velazco",
+        "lang": null,
+        "datatype": null
+      },
+      null
+    ],
+    [
+      {
+        "type": "uri",
+        "value": "http:\/\/www.engadget.com\/2014\/10\/03\/moto-g-review-2014\/"
+      },
+      "http:\/\/www.w3.org\/1999\/xhtml\/vocab#blogger_twitter",
+      {
+        "type": "literal",
+        "value": "chrisvelazco",
+        "lang": null,
+        "datatype": null
+      },
+      null
+    ],
+...
+  ]
+}
+   </code></pre>
+     </ul>
+ </div>
+
+<h4>
+<a name="restaurant" class="anchor" href="#restaurant"><span class="octicon octicon-link"></span></a>Restaurant Review</h4>
+<p>The following displays customer reviews relating to the <a href="http://www.social-bite.co.uk/">Social Bite Restaurant</a> in
+Edinburgh, Scotland.</p>
+<p>From the extracted triples below, you will be able to see three reviews containing the review titles, price range, physical and 
+postal address details, review count, rating value, aggregate rating, review authors, review descriptions, review published date, etc.
+</p>
+ <div class="row">
+   <a href="#hide3" class="hide" id="hide3">Expand</a>
+   <a href="#show3" class="show" id="show3">Collapse</a>
+   <div class="list">
+   <ul><pre><code>
+{
+  "quads": [
+    [
+      {
+        "type": "uri",
+        "value": "http://www.yelp.com/biz/social-bite-edinburgh"
+      },
+      "http://purl.org/dc/terms/title",
+      {
+        "type": "literal",
+        "value": "Social Bite - New Town - Edinburgh, United Kingdom | Yelp",
+        "lang": null,
+        "datatype": null
+      },
+      null
+    ],
+    [
+      {
+        "type": "bnode",
+        "value": "node4062b84e96fb48a9a72abdfb616de85a"
+      },
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
+      {
+        "type": "uri",
+        "value": "http://schema.org/LocalBusiness"
+      },
+      null
+    ],
+    [
+      {
+        "type": "bnode",
+        "value": "node4062b84e96fb48a9a72abdfb616de85a"
+      },
+      "http://schema.org/LocalBusiness/priceRange",
+      {
+        "type": "literal",
+        "value": "£",
+        "lang": "en",
+        "datatype": null
+      },
+      null
+    ],
+    [
+      {
+        "type": "bnode",
+        "value": "node5e91dc67fe3d3cdfcfdd32c79069"
+      },
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
+      {
+        "type": "uri",
+        "value": "http://schema.org/PostalAddress"
+      },
+      null
+    ],
+    [
+      {
+        "type": "bnode",
+        "value": "node5e91dc67fe3d3cdfcfdd32c79069"
+      },
+      "http://schema.org/PostalAddress/streetAddress",
+      {
+        "type": "literal",
+        "value": "131 Rose Street",
+        "lang": "en",
+        "datatype": null
+      },
+      null
+    ],
+    [
+      {
+        "type": "bnode",
+        "value": "node5e91dc67fe3d3cdfcfdd32c79069"
+      },
+      "http://schema.org/PostalAddress/addressLocality",
+      {
+        "type": "literal",
+        "value": "Edinburgh",
+        "lang": "en",
+        "datatype": null
+      },
+      null
+    ],
+    [
+      {
+        "type": "bnode",
+        "value": "node5e91dc67fe3d3cdfcfdd32c79069"
+      },
+      "http://schema.org/PostalAddress/postalCode",
+      {
+        "type": "literal",
+        "value": "EH2 3DT",
+        "lang": "en",
+        "datatype": null
+      },
+      null
+    ],
+    [
+      {
+        "type": "bnode",
+        "value": "node4062b84e96fb48a9a72abdfb616de85a"
+      },
+      "http://schema.org/LocalBusiness/address",
+      {
+        "type": "bnode",
+        "value": "node5e91dc67fe3d3cdfcfdd32c79069"
+      },
+      null
+    ],
+    [
+      {
+        "type": "bnode",
+        "value": "node4062b84e96fb48a9a72abdfb616de85a"
+      },
+      "http://schema.org/LocalBusiness/name",
+      {
+        "type": "literal",
+        "value": "Social Bite",
+        "lang": "en",
+        "datatype": null
+      },
+      null
+    ],
+    [
+      {
+        "type": "bnode",
+        "value": "node4062b84e96fb48a9a72abdfb616de85a"
+      },
+      "http://schema.org/LocalBusiness/image",
+      {
+        "type": "literal",
+        "value": "http://s3-media2.fl.yelpcdn.com/bphoto/tcDoptKVFME2Sz8RMiYXxw/ls.jpg",
+        "lang": "en",
+        "datatype": null
+      },
+      null
+    ],
+    [
+      {
+        "type": "bnode",
+        "value": "node295b3fae8ad832a95374e440a633965a"
+      },
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
+      {
+        "type": "uri",
+        "value": "http://schema.org/AggregateRating"
+      },
+      null
+    ],
+    [
+      {
+        "type": "bnode",
+        "value": "node295b3fae8ad832a95374e440a633965a"
+      },
+      "http://schema.org/AggregateRating/ratingValue",
+      {
+        "type": "literal",
+        "value": "5.0",
+        "lang": "en",
+        "datatype": null
+      },
+      null
+    ],
+    [
+      {
+        "type": "bnode",
+        "value": "node295b3fae8ad832a95374e440a633965a"
+      },
+      "http://schema.org/AggregateRating/reviewCount",
+      {
+        "type": "literal",
+        "value": "9",
+        "lang": "en",
+        "datatype": null
+      },
+      null
+    ],
+    [
+      {
+        "type": "bnode",
+        "value": "node4062b84e96fb48a9a72abdfb616de85a"
+      },
+      "http://schema.org/LocalBusiness/aggregateRating",
+      {
+        "type": "bnode",
+        "value": "node295b3fae8ad832a95374e440a633965a"
+      },
+      null
+    ],
+    [
+      {
+        "type": "bnode",
+        "value": "node4062b84e96fb48a9a72abdfb616de85a"
+      },
+      "http://schema.org/LocalBusiness/telephone",
+      {
+        "type": "literal",
+        "value": "+44 131 220 8206",
+        "lang": "en",
+        "datatype": null
+      },
+      null
+    ],
+    [
+      {
+        "type": "bnode",
+        "value": "node60d53cf994ea695ec3e4457732d5f5ab"
+      },
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
+      {
+        "type": "uri",
+        "value": "http://schema.org/Review"
+      },
+      null
+    ],
+    [
+      {
+        "type": "bnode",
+        "value": "node60d53cf994ea695ec3e4457732d5f5ab"
+      },
+      "http://schema.org/Review/author",
+      {
+        "type": "literal",
+        "value": "Laura Y.",
+        "lang": "en",
+        "datatype": null
+      },
+      null
+    ],
+    [
+      {
+        "type": "bnode",
+        "value": "nodebc6e1535a6271dd499a0922868252a76"
+      },
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
+      {
+        "type": "uri",
+        "value": "http://schema.org/Rating"
+      },
+      null
+    ],
+    [
+      {
+        "type": "bnode",
+        "value": "nodebc6e1535a6271dd499a0922868252a76"
+      },
+      "http://schema.org/Rating/ratingValue",
+      {
+        "type": "literal",
+        "value": "5.0",
+        "lang": "en",
+        "datatype": null
+      },
+      null
+    ],
+    [
+      {
+        "type": "bnode",
+        "value": "node60d53cf994ea695ec3e4457732d5f5ab"
+      },
+      "http://schema.org/Review/reviewRating",
+      {
+        "type": "bnode",
+        "value": "nodebc6e1535a6271dd499a0922868252a76"
+      },
+      null
+    ],
+    [
+      {
+        "type": "bnode",
+        "value": "node60d53cf994ea695ec3e4457732d5f5ab"
+      },
+      "http://schema.org/Review/description",
+      {
+        "type": "literal",
+        "value": "One of the most amazing places I've been. 100% of their profits go to charities! The food is extremely tasty and excellent value. I had a vegetable curry and my husband had a Mexican chicken dish; both were very flavoursome and hearty portions. We also happened to pop in on a Friday which meant we were given free coffee/hot chocolate with our meals. We spent less than £10 all up and were very satisfied! I would strongly recommend everyone to visit this little gem in Edinburgh!",
+        "lang": "en",
+        "datatype": null
+      },
+      null
+    ],
+    [
+      {
+        "type": "bnode",
+        "value": "node60d53cf994ea695ec3e4457732d5f5ab"
+      },
+      "http://schema.org/Review/datePublished",
+      {
+        "type": "literal",
+        "value": "2014-08-08",
+        "lang": "en",
+        "datatype": null
+      },
+      null
+    ],
+    [
+      {
+        "type": "bnode",
+        "value": "node4062b84e96fb48a9a72abdfb616de85a"
+      },
+      "http://schema.org/LocalBusiness/review",
+      {
+        "type": "bnode",
+        "value": "node60d53cf994ea695ec3e4457732d5f5ab"
+      },
+      null
+    ],
+    [
+      {
+        "type": "bnode",
+        "value": "nodefbbadabe1162e57e01d4e36583be5ae"
+      },
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
+      {
+        "type": "uri",
+        "value": "http://schema.org/Review"
+      },
+      null
+    ],
+    [
+      {
+        "type": "bnode",
+        "value": "nodefbbadabe1162e57e01d4e36583be5ae"
+      },
+      "http://schema.org/Review/author",
+      {
+        "type": "literal",
+        "value": "Ursula D.",
+        "lang": "en",
+        "datatype": null
+      },
+      null
+    ],
+    [
+      {
+        "type": "bnode",
+        "value": "nodefa2a68813efac27567bdcaf8bbf8bb4e"
+      },
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
+      {
+        "type": "uri",
+        "value": "http://schema.org/Rating"
+      },
+      null
+    ],
+    [
+      {
+        "type": "bnode",
+        "value": "nodefa2a68813efac27567bdcaf8bbf8bb4e"
+      },
+      "http://schema.org/Rating/ratingValue",
+      {
+        "type": "literal",
+        "value": "4.0",
+        "lang": "en",
+        "datatype": null
+      },
+      null
+    ],
+    [
+      {
+        "type": "bnode",
+        "value": "nodefbbadabe1162e57e01d4e36583be5ae"
+      },
+      "http://schema.org/Review/reviewRating",
+      {
+        "type": "bnode",
+        "value": "nodefa2a68813efac27567bdcaf8bbf8bb4e"
+      },
+      null
+    ],
+    [
+      {
+        "type": "bnode",
+        "value": "nodefbbadabe1162e57e01d4e36583be5ae"
+      },
+      "http://schema.org/Review/description",
+      {
+        "type": "literal",
+        "value": "How could you not love that all the profits go to very worthy charities and they are actively making a difference in the Edinburgh community. I've been here twice now, once for a pulled pork wrap at lunch time and once for a (eek - slightly hungover) breakfast bagel. The wrap was nice, the price was reasonable and the ingredients were certainly fresh. I learnt about the idea behind Social Bite for the first time and it certainly warmed the cockles of my heart. The second time I came was quite early in the morning and despite there only being one other customer, it took about twenty minutes to get a breakfast bagel made up. This made me a bit late to work which wasn't fantastic and the bagel was pretty heavy on the grease, but I got given a lovely salted caramel cookie to make up for the wait. Very sweet little touch!They are working towards a very admirable cause and by buying lunch from here you are helping them to make a difference. Not your average sandwich joint!",
+        "lang": "en",
+        "datatype": null
+      },
+      null
+    ],
+    [
+      {
+        "type": "bnode",
+        "value": "nodefbbadabe1162e57e01d4e36583be5ae"
+      },
+      "http://schema.org/Review/datePublished",
+      {
+        "type": "literal",
+        "value": "2014-05-04",
+        "lang": "en",
+        "datatype": null
+      },
+      null
+    ],
+    [
+      {
+        "type": "bnode",
+        "value": "node4062b84e96fb48a9a72abdfb616de85a"
+      },
+      "http://schema.org/LocalBusiness/review",
+      {
+        "type": "bnode",
+        "value": "nodefbbadabe1162e57e01d4e36583be5ae"
+      },
+      null
+    ],
+    [
+      {
+        "type": "bnode",
+        "value": "node931aa1837e8c1248b311bb78241d1db"
+      },
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
+      {
+        "type": "uri",
+        "value": "http://schema.org/Review"
+      },
+      null
+    ],
+    [
+      {
+        "type": "bnode",
+        "value": "node931aa1837e8c1248b311bb78241d1db"
+      },
+      "http://schema.org/Review/author",
+      {
+        "type": "literal",
+        "value": "Jennie S.",
+        "lang": "en",
+        "datatype": null
+      },
+      null
+    ],
+    [
+      {
+        "type": "bnode",
+        "value": "nodea5917fd9e26e7393696968e8584ab95"
+      },
+      "http://www.w3.org/1999/02/22-rdf-syntax-ns#type",
+      {
+        "type": "uri",
+        "value": "http://schema.org/Rating"
+      },
+      null
+    ],
+    [
+      {
+        "type": "bnode",
+        "value": "nodea5917fd9e26e7393696968e8584ab95"
+      },
+      "http://schema.org/Rating/ratingValue",
+      {
+        "type": "literal",
+        "value": "5.0",
+        "lang": "en",
+        "datatype": null
+      },
+      null
+    ],
+    [
+      {
+        "type": "bnode",
+        "value": "node931aa1837e8c1248b311bb78241d1db"
+      },
+      "http://schema.org/Review/reviewRating",
+      {
+        "type": "bnode",
+        "value": "nodea5917fd9e26e7393696968e8584ab95"
+      },
+      null
+    ],
+    [
+      {
+        "type": "bnode",
+        "value": "node931aa1837e8c1248b311bb78241d1db"
+      },
+      "http://schema.org/Review/description",
+      {
+        "type": "literal",
+        "value": "I've been meaning to visit this place for some time now. It is basically a sort of sandwich shop/cafe, but as they state on their website: 'But the main difference between social bite and the rest is that 100% (every single penny) of profit goes towards solving social problems. This is not a token gesture. This is not a PR spin. This is just a different kind of business. A business to help others. This is a Social Business.' So I went here today to do my bit and get a saintly lunch! They have such a wide range of delicious sounding salads, wraps, sushi, noodles, paninis, sandwiches, and hot food. I chose the Chorizo, Pear and Manchego Cheese panini. The staff were absolute sweethearts and the panini turned out to be absolutely delicious! Unfortunately, just after I bought my panini I noticed their pie menu on the wall and had major food envy. Their pies so absolutely mouth watering, but that's OK, it just means I have to go back soon to try one! :)I paid slightly more (£3.99) than I normally would for a panini, but the ingredients were delicious and fresh and off course my money was going to help others so I am more than happy to pay a bit extra!I strongly recommend this place and I'll be back there very soon. They also offer loyalty cards which is a good incentive to keep going back.",
+        "lang": "en",
+        "datatype": null
+      },
+      null
+    ]
+  ]
+}
+   </code></pre>
+     </ul>
+ </div>
 
 </section>
 
